@@ -1,0 +1,72 @@
+[
+  {
+    "Title": "元旦",
+    "Begin": "2020-01-01",
+    "WholeDay": true
+  },
+  {
+    "Title": "春节调休 上班",
+    "Begin": "2020-01-19",
+    "WholeDay": true
+  },
+  {
+    "Title": "春节调休 放假",
+    "Begin": "2020-01-24",
+    "End": "2020-01-30",
+    "WholeDay": true
+  },
+  {
+    "Title": "春节调休 上班",
+    "Begin": "2020-02-01",
+    "WholeDay": true
+  },
+  {
+    "Title": "清明节调休 放假",
+    "Begin": "2020-04-04",
+    "End": "2020-04-06",
+    "WholeDay": true
+  },
+  {
+    "Title": "劳动节调休 上班",
+    "Begin": "2020-04-26",
+    "WholeDay": true
+  },
+  {
+    "Title": "劳动节调休 放假",
+    "Begin": "2020-05-01",
+    "End": "2020-05-05",
+    "WholeDay": true
+  },
+  {
+    "Title": "劳动节调休 上班",
+    "Begin": "2020-05-09",
+    "WholeDay": true
+  },
+  {
+    "Title": "端午节调休 放假",
+    "Begin": "2020-06-25",
+    "End": "2020-06-27",
+    "WholeDay": true
+  },
+  {
+    "Title": "端午节调休 上班",
+    "Begin": "2020-06-28",
+    "WholeDay": true
+  },
+  {
+    "Title": "国庆节 中秋节 上班",
+    "Begin": "2020-09-27",
+    "WholeDay": true
+  },
+  {
+    "Title": "国庆节 中秋节 调休",
+    "Begin": "2020-10-01",
+    "End": "2020-10-08",
+    "WholeDay": true
+  },
+  {
+    "Title": "国庆节 中秋节 上班",
+    "Begin": "2020-10-10",
+    "WholeDay": true
+  }
+]

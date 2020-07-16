@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ChinaPublicCalendarGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "--input"
+    }
+  }
+}
