@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ChinaPublicCalendarGenerator.Fetchers
 {
-    [FetchShortName("holiday")]
-    class ChinaHolidayFetcher : JsonReaderFetcherBase
+    [FetchShortName("international-festival")]
+    class ChinaInternationalFestivalFetcher : JsonReaderFetcherBase
     {
         protected override string GetJsonPath(int year)
-            => string.Format("Data/ChinaHoliday_{0:0000}.json", year);
+            => string.Format("Data/ChinaInternationalFestival_{0:0000}.json", year);
     }
 }
