@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ChinaPublicCalendarGenerator
 {
+    [AttributeUsage(AttributeTargets.Class)]
     class FetchShortNameAttribute : Attribute
     {
         public string ShortName { get; }
