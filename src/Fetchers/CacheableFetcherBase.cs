@@ -43,15 +43,18 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
             foreach (var _event in events)
             {
+                bool updated = false;
                 for (var index = cachedEvents.Count - 1; index >= 0; index--)
                 {
                     if (actComparer(cachedEvents[index], _event))
                     {
                         cachedEvents.RemoveAt(index);
                         cachedEvents.Insert(index, _event);
+                        updated = true;
+                        break;
                     }
                 }
-                cachedEvents.Add(_event);
+                if (!updated) cachedEvents.Add(_event);
             }
         }
 
