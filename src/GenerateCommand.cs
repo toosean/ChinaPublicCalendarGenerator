@@ -52,7 +52,7 @@ namespace ChinaPublicCalendarGenerator
             {
                 Console.WriteLine(UTF8Encoding.UTF8.GetString(buffer));
             }
-            else if (!File.Exists(OutputPath) || (ForceOverwriteOutput || Prompt.GetYesNo("Output file exists, oo you want to overwrite?", false)))
+            else if (!File.Exists(OutputPath) || ForceOverwriteOutput || Prompt.GetYesNo("Output file exists, oo you want to overwrite?", false))
             {
                 File.WriteAllBytes(OutputPath, buffer);
             }
