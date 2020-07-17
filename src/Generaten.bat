@@ -5,4 +5,5 @@ dotnet ChinaPublicCalendarGenerator.dll international-festival -r -o:Generated/I
 dotnet ChinaPublicCalendarGenerator.dll solar-terms -r -o:Generated/SolarTerms.ics
 dotnet ChinaPublicCalendarGenerator.dll tradition-festival -r -o:Generated/TraditionFestival.ics
 dotnet ChinaPublicCalendarGenerator.dll movie-coming -r -o:Generated/MovieComing.ics
+dotnet ChinaPublicCalendarGenerator.dll game-launch -r -o:Generated/GameLaunch.ics
 dotnet ChinaPublicCalendarGenerator.dll snooker-tournament -r -o:Generated/SnookerTournament.ics

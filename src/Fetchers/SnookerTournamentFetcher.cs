@@ -12,10 +12,9 @@ using System.Threading.Tasks;
 namespace ChinaPublicCalendarGenerator.Fetchers
 {
     [FetchShortName("snooker-tournament")]
-    class SnookerTournamentFetcher : IFetcher
+    class SnookerTournamentFetcher : CacheableFetcherBase
     {
-        private const string DataCachedFile = "SnookerTournamentCache";
-        private const string DouBanUrl = "https://wst.tv/full-calendar/";
+        private const string SnookerOfficialUrl = "https://wst.tv/full-calendar/";
 
         private static readonly Dictionary<string, int> MonthLableMapper
             = new Dictionary<string, int>
@@ -41,15 +40,12 @@ namespace ChinaPublicCalendarGenerator.Fetchers
             HttpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
+        protected override string? GetCalendarName() => "斯诺克赛事日历";
 
-        public async Task<CalendarEventCollection> FetchAsync(DateTime since)
+        protected override async Task FetchOnCachedAsync(DateTime since, IList<CalendarEvent> cachedEvents)
         {
-            var cached = File.Exists(DataCachedFile)
-                ? JsonSerializer.Deserialize<List<CalendarEvent>>(File.ReadAllText(DataCachedFile))
-                : new List<CalendarEvent>();
-
             using (var client = HttpClientFactory.CreateClient())
-            using (var stream = await client.GetStreamAsync(DouBanUrl))
+            using (var stream = await client.GetStreamAsync(SnookerOfficialUrl))
             {
                 var doc = new HtmlDocument();
                 doc.Load(stream);
@@ -85,21 +81,17 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                             , 0, 0, 0, TimeSpan.Zero);
 
 
-                        cached.Add(new CalendarEvent
+                        cachedEvents.Add(new CalendarEvent
                         {
                             Title = title,
                             Begin = actBeginDate.LocalDateTime.Date,
                             End = actEndDate.LocalDateTime.Date,
                             IsWholeDay = true
                         });
-              
+
                     }
                 }
             }
-
-            File.WriteAllText(DataCachedFile, JsonSerializer.Serialize(cached));
-
-            return new CalendarEventCollection(cached.Where(w => w.Begin >= since)) { Name = "斯诺克比赛日历" };
         }
     }
 }

@@ -10,5 +10,7 @@ namespace ChinaPublicCalendarGenerator
         public DateTime Begin { get; set; }
         public DateTime? End { get; set; }
         public bool IsWholeDay { get; set; }
+
+        public string? Description { get; set; }
     }
 }

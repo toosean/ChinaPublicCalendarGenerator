@@ -43,6 +43,7 @@ namespace ChinaPublicCalendarGenerator
                     Start = calStart,
                     End = calEnd,
                     Summary = levent.Title,
+                    Description = levent.Description,
                     IsAllDay = levent.IsWholeDay
                 };
 

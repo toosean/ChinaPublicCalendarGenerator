@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 namespace ChinaPublicCalendarGenerator.Fetchers
 {
     [FetchShortName("movie-coming")]
-    class MovieComingFetcher : IFetcher
+    class MovieComingFetcher : CacheableFetcherBase
     {
-        private const string DataCachedFile = "MovieComingCache";
         private const string DouBanUrl = "https://movie.douban.com/coming";
 
         public IHttpClientFactory HttpClientFactory { get; }
@@ -24,13 +23,10 @@ namespace ChinaPublicCalendarGenerator.Fetchers
             HttpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
+        protected override string? GetCalendarName() => "内地电影上映日期";
 
-        public async Task<CalendarEventCollection> FetchAsync(DateTime since)
+        protected override  async Task FetchOnCachedAsync(DateTime since, IList<CalendarEvent> cachedEvents)
         {
-            var cached = File.Exists(DataCachedFile)
-                ? JsonSerializer.Deserialize<List<CalendarEvent>>(File.ReadAllText(DataCachedFile))
-                : new List<CalendarEvent>();
-
             using (var client = HttpClientFactory.CreateClient())
             using (var stream = await client.GetStreamAsync(DouBanUrl))
             {
@@ -54,10 +50,10 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                             Convert.ToInt32(match.Groups[1].Value),
                             Convert.ToInt32(match.Groups[2].Value));
 
-                        var cachedItem = cached.FirstOrDefault(f => f.Title == title);
+                        var cachedItem = cachedEvents.FirstOrDefault(f => f.Title == title);
                         if (cachedItem == null)
                         {
-                            cached.Add(new CalendarEvent
+                            cachedEvents.Add(new CalendarEvent
                             {
                                 Title = title,
                                 Begin = actDate,
@@ -71,10 +67,6 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                     }
                 }
             }
-
-            File.WriteAllText(DataCachedFile, JsonSerializer.Serialize(cached));
-
-            return new CalendarEventCollection(cached.Where(w => w.Begin >= since)){ Name = "内地电影上映日期" };
         }
     }
 }
