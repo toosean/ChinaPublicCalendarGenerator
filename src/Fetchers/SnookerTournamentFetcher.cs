@@ -99,7 +99,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
             File.WriteAllText(DataCachedFile, JsonSerializer.Serialize(cached));
 
-            return new CalendarEventCollection(cached.Where(w => w.Begin >= since));
+            return new CalendarEventCollection(cached.Where(w => w.Begin >= since)) { Name = "斯诺克比赛日历" };
         }
     }
 }

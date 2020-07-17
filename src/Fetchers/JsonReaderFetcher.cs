@@ -9,6 +9,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 {
     abstract class JsonReaderFetcherBase : IFetcher
     {
+        protected abstract string GetCalendarName();
         protected abstract string GetJsonPath(int year);
 
         public Task<CalendarEventCollection> FetchAsync(DateTime since)
@@ -23,7 +24,10 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                 result.AddRange(events);
             }
 
-            return Task.FromResult(new CalendarEventCollection(result));
+            return Task.FromResult(new CalendarEventCollection(result)
+            {
+                Name = GetCalendarName()
+            });
 
         }
             

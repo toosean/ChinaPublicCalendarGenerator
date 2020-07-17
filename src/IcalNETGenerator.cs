@@ -23,15 +23,20 @@ namespace ChinaPublicCalendarGenerator
                     ? new CalDateTime(levent.Begin.Year, levent.Begin.Month, levent.Begin.Day) 
                     : new CalDateTime(levent.Begin);
 
-                if (levent.IsWholeDay) calStart.HasTime = false;
-
                 CalDateTime calEnd = !levent.End.HasValue 
                     ? calStart 
                     : levent.IsWholeDay 
                     ? new CalDateTime(levent.End.Value.Year, levent.End.Value.Month, levent.End.Value.Day) 
                     : new CalDateTime(levent.End.Value);
 
-                if (levent.IsWholeDay) calEnd.HasTime = false;
+                if (levent.IsWholeDay)
+                {
+                    calStart.HasDate = true;
+                    calStart.HasTime = false;
+
+                    calEnd.HasDate = true;
+                    calEnd.HasTime = false;
+                }
 
                 var revent = new Ical.Net.CalendarComponents.CalendarEvent()
                 {
