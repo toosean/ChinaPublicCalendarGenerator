@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace ChinaPublicCalendarGenerator
@@ -56,7 +57,7 @@ namespace ChinaPublicCalendarGenerator
             using (var memoryStream = new MemoryStream())
             {
                 var serializer = new CalendarSerializer();
-                serializer.Serialize(calendar, memoryStream, Encoding.UTF8);
+                serializer.Serialize(calendar, memoryStream, new UTF8Encoding(false));
 
                 return Task.FromResult(memoryStream.ToArray());
             }
