@@ -25,8 +25,11 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string? GetCalendarName() => "内地电影上映日期";
 
-        protected override  async Task FetchOnCachedAsync(DateTime since, IList<CalendarEvent> cachedEvents)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
         {
+
+            var result = new List<CalendarEvent>();
+
             using (var client = HttpClientFactory.CreateClient())
             using (var stream = await client.GetStreamAsync(DouBanUrl))
             {
@@ -50,23 +53,17 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                             Convert.ToInt32(match.Groups[1].Value),
                             Convert.ToInt32(match.Groups[2].Value));
 
-                        var cachedItem = cachedEvents.FirstOrDefault(f => f.Title == title);
-                        if (cachedItem == null)
+                        result.Add(new CalendarEvent
                         {
-                            cachedEvents.Add(new CalendarEvent
-                            {
-                                Title = title,
-                                Begin = actDate,
-                                IsWholeDay = true
-                            });
-                        }
-                        else
-                        {
-                            cachedItem.Begin = actDate;
-                        }
+                            Title = title,
+                            Begin = actDate,
+                            IsWholeDay = true
+                        });
                     }
                 }
             }
+
+            return result;
         }
     }
 }

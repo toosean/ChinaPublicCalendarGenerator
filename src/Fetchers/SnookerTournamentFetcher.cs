@@ -42,8 +42,10 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string? GetCalendarName() => "斯诺克赛事日历";
 
-        protected override async Task FetchOnCachedAsync(DateTime since, IList<CalendarEvent> cachedEvents)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
         {
+            var result = new List<CalendarEvent>();
+
             using (var client = HttpClientFactory.CreateClient())
             using (var stream = await client.GetStreamAsync(SnookerOfficialUrl))
             {
@@ -81,7 +83,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                             , 0, 0, 0, TimeSpan.Zero);
 
 
-                        cachedEvents.Add(new CalendarEvent
+                        result.Add(new CalendarEvent
                         {
                             Title = title,
                             Begin = actBeginDate.LocalDateTime.Date,
@@ -92,6 +94,8 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                     }
                 }
             }
+
+            return result;
         }
     }
 }

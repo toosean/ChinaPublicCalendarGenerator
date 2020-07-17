@@ -22,19 +22,21 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string? GetCalendarName() => "游戏发售时间表";
 
-        protected override async Task FetchOnCachedAsync(DateTime since, IList<CalendarEvent> cachedEvents)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
         {
-            for(var monthCounter = 0;monthCounter < 3; monthCounter++)
+            var result = new List<CalendarEvent>();
+
+            for (var monthCounter = 0; monthCounter < 3; monthCounter++)
             {
                 var fetchDate = DateTime.Today.AddMonths(monthCounter);
 
                 using (var client = HttpClientFactory.CreateClient())
-                using (var stream = await client.GetStreamAsync(string.Format(FetchInitUrl,fetchDate)))
+                using (var stream = await client.GetStreamAsync(string.Format(FetchInitUrl, fetchDate)))
                 {
                     var doc = new HtmlDocument();
                     doc.Load(stream);
 
-                    var result = doc.QuerySelectorAll("div.page_list li.vg_ss_box")
+                    result.AddRange(doc.QuerySelectorAll("div.page_list li.vg_ss_box")
                         .Select(item => new CalendarEvent
                         {
                             Title = item.QuerySelector(".info_box h2").InnerText,
@@ -47,13 +49,13 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                                                                     ? $"[{span.InnerText}|中]"
                                                                     : $"[{span.InnerText}]")
                                                 .Aggregate((a, b) => $"{a} {b}")
-                        });
+                        }));
 
-                    foreach (var one in result) cachedEvents.Add(one);
                 }
 
             }
-
+         
+            return result;
         }
     }
 }
