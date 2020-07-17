@@ -11,6 +11,6 @@ namespace ChinaPublicCalendarGenerator.Fetchers
     class ChinaTraditionFestivalFetcher : JsonReaderFetcherBase
     {
         protected override string GetJsonPath(int year)
-            => string.Format("Data/ChinaSolarTerms_{0:0000}.json", year);
+            => string.Format("Data/ChinaTraditionFestival_{0:0000}.json", year);
     }
 }

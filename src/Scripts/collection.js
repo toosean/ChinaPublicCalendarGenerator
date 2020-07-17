@@ -21,8 +21,8 @@ for (var i = 0; i < elements.length; i++) {
     var match = text.match(p1);
 
     var title = match[1];
-    var mon = match[2];
-    var day = match[3];
+    var mon = match[2].length == 1 ? "0" + match[2] : match[2];
+    var day = match[3].length == 1 ? "0" + match[3] : match[3];
 
     var event = {
       Title: title,
