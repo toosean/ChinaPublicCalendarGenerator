@@ -20,15 +20,15 @@ namespace ChinaPublicCalendarGenerator
             foreach(var levent in events)
             {
 
-                CalDateTime calStart = levent.IsWholeDay 
-                    ? new CalDateTime(levent.Begin.Year, levent.Begin.Month, levent.Begin.Day) 
-                    : new CalDateTime(levent.Begin);
+                CalDateTime calStart = levent.IsWholeDay
+                    ? new CalDateTime(levent.Begin.Year, levent.Begin.Month, levent.Begin.Day)
+                    : new CalDateTime(levent.Begin.ToUniversalTime());
 
-                CalDateTime calEnd = !levent.End.HasValue 
-                    ? calStart 
-                    : levent.IsWholeDay 
-                    ? new CalDateTime(levent.End.Value.Year, levent.End.Value.Month, levent.End.Value.Day) 
-                    : new CalDateTime(levent.End.Value);
+                CalDateTime calEnd = !levent.End.HasValue
+                    ? calStart
+                    : levent.IsWholeDay
+                    ? new CalDateTime(levent.End.Value.Year, levent.End.Value.Month, levent.End.Value.Day)
+                    : new CalDateTime(levent.End.Value.ToUniversalTime());
 
                 if (levent.IsWholeDay)
                 {
@@ -51,6 +51,7 @@ namespace ChinaPublicCalendarGenerator
                 calendar.Events.Add(revent);
             }
 
+            //for Google Calendar
             if (events.Name != null) calendar.AddProperty("X-WR-CALNAME", events.Name);
             calendar.Method = "PUBLISH";
 
