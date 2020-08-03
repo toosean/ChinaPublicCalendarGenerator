@@ -5,6 +5,7 @@ using Ical.Net.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Unicode;
 using System.Threading.Tasks;
@@ -39,16 +40,25 @@ namespace ChinaPublicCalendarGenerator
                     calEnd.HasTime = false;
                 }
 
-                var revent = new Ical.Net.CalendarComponents.CalendarEvent()
+                using (var sha1 = new HMACSHA1())
                 {
-                    Start = calStart,
-                    End = calEnd,
-                    Summary = levent.Title,
-                    Description = levent.Description,
-                    IsAllDay = levent.IsWholeDay
-                };
+                    byte[] titleBytes = UTF8Encoding.UTF8.GetBytes(levent.Title);
+                    byte[] hashMessage = sha1.ComputeHash(titleBytes);
+                    string uid = BitConverter.ToString(hashMessage).Replace("-", "").ToLower();
 
-                calendar.Events.Add(revent);
+                    var revent = new Ical.Net.CalendarComponents.CalendarEvent()
+                    {
+                        Uid = uid,
+                        DtStamp = calStart,
+                        Start = calStart,
+                        End = calEnd,
+                        Summary = levent.Title,
+                        Description = levent.Description,
+                        IsAllDay = levent.IsWholeDay
+                    };
+
+                    calendar.Events.Add(revent);
+                }
             }
 
             //for Google Calendar
