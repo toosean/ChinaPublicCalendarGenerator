@@ -40,7 +40,7 @@ namespace ChinaPublicCalendarGenerator
                     calEnd.HasTime = false;
                 }
 
-                using (var sha1 = new HMACSHA1())
+                using (var sha1 = SHA1.Create())
                 {
                     byte[] titleBytes = UTF8Encoding.UTF8.GetBytes(levent.Title);
                     byte[] hashMessage = sha1.ComputeHash(titleBytes);
