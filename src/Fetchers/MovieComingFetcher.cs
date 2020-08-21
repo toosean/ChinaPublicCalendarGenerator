@@ -45,6 +45,8 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                     var title = tdCollection[1].QuerySelector("a").InnerText;
                     var date = tdCollection[0].InnerText.Trim();
 
+                    var link = tdCollection[1].QuerySelector("a").Attributes["href"];
+
                     var match = regex.Match(date);
 
                     if (match.Success)
@@ -57,6 +59,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                         {
                             Title = title,
                             Begin = actDate,
+                            Description = link.Value,
                             IsWholeDay = true
                         });
                     }
