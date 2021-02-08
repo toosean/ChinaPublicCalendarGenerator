@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace ChinaPublicCalendarGenerator.Fetchers
+namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
 {
     abstract class JsonReaderFetcherBase : IFetcher
     {

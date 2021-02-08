@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace ChinaPublicCalendarGenerator.Fetchers
+namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
 {
     class FetcherTypeCollection : Dictionary<string,TypeInfo>
     {

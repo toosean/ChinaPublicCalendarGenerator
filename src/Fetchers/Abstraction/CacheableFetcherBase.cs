@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ChinaPublicCalendarGenerator.Fetchers
+namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
 {
     abstract class CacheableFetcherBase : IFetcher
     {
