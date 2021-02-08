@@ -15,7 +15,7 @@ namespace ChinaPublicCalendarGenerator
                 Console.WriteLine("Input string as arguments:");
                 arguments = (Console.ReadLine() ?? string.Empty).Split(' ');
 
-                if (arguments.Length == 1 && string.IsNullOrWhiteSpace(arguments.FirstOrDefault())) arguments = new string[0];
+                if (arguments.Length == 1 && string.IsNullOrWhiteSpace(arguments.FirstOrDefault())) arguments = Array.Empty<string>();
             }
 
 
@@ -23,7 +23,7 @@ namespace ChinaPublicCalendarGenerator
             app.Conventions.UseDefaultConventions()
                 .UseConstructorInjection(ConfigureService());
 
-            return app.Execute(arguments ?? new string[0]);
+            return app.Execute(arguments ?? Array.Empty<string>());
         }
 
         static IServiceProvider ConfigureService()
