@@ -1,4 +1,5 @@
 ﻿using ChinaPublicCalendarGenerator.Fetchers;
+using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,4 +1,5 @@
 ﻿using ChinaPublicCalendarGenerator.Fetchers;
+using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using System;

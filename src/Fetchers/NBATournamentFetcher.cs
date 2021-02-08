@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System;
