@@ -26,7 +26,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string GetCalendarName() => "NBA赛程";
 
-        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin,DateTime end)
         {
             var result = new List<CalendarEvent>();
 

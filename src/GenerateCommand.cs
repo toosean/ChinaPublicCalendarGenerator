@@ -22,6 +22,9 @@ namespace ChinaPublicCalendarGenerator
         [Option(ShortName = "d", Description = "Generated from a certain date, format like yyyyMMdd.")]
         public string SinceDateArg { get; set; } = DateTime.Today.ToString("yyyyMMdd");
 
+        [Option(ShortName ="range",Description = "Generated from a certain date with range.")]
+        public uint RangeDays { get; set; } = 30;
+
         [Option(ShortName = "o", Description = "The output path of the generated content.")]
         [LegalFilePath]
         public string? OutputPath { get; set; } = null;
@@ -43,12 +46,12 @@ namespace ChinaPublicCalendarGenerator
             ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
 
-        public async Task<int> OnExecuteAsync(CommandLineApplication app)
+        public async Task<int> OnExecuteAsync(CommandLineApplication _)
         {
             var sinceDate = DateTime.Parse($"{SinceDateArg.Substring(0, 4)}-{SinceDateArg.Substring(4, 2)}-{SinceDateArg.Substring(6, 2)}");
             var fetcher = (IFetcher)ServiceProvider.GetRequiredService(FetcherTypeCollection[Fetcher]);
 
-            var events = await fetcher.FetchAsync(sinceDate);
+            var events = await fetcher.FetchAsync(sinceDate, sinceDate.AddDays(RangeDays));
             var buffer = await Generator.GeneratorAsync(events);
 
             if (OutputPath == null)

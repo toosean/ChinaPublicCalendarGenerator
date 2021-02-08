@@ -18,9 +18,9 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
 
         protected abstract string? GetCalendarName();
 
-        protected abstract Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since);
+        protected abstract Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin, DateTime end);
 
-        public async Task<CalendarEventCollection> FetchAsync(DateTime since)
+        public async Task<CalendarEventCollection> FetchAsync(DateTime begin, DateTime end)
         {
             var cachedFilePath = GetCachedPath();
 
@@ -28,11 +28,11 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
                 ? JsonSerializer.Deserialize<List<CalendarEvent>>(File.ReadAllText(cachedFilePath))!
                 : new List<CalendarEvent>();
 
-            CacheMergeFrom(cached, await FetchOnCachedAsync(since));
+            CacheMergeFrom(cached, await FetchBaseCachedAsync(begin,end));
 
             File.WriteAllText(GetCachedPath(), JsonSerializer.Serialize(cached));
 
-            return new CalendarEventCollection(cached.Where(w => w.Begin >= since)) { Name = GetCalendarName() };
+            return new CalendarEventCollection(cached.Where(w => w.Begin >= begin && w.End <= end)) { Name = GetCalendarName() };
         }
 
         protected virtual void CacheMergeFrom(IList<CalendarEvent> cachedEvents, IEnumerable<CalendarEvent> events

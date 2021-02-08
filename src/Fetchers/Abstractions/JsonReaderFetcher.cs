@@ -12,11 +12,11 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
         protected abstract string GetCalendarName();
         protected abstract string GetJsonPath(int year);
 
-        public Task<CalendarEventCollection> FetchAsync(DateTime since)
+        public Task<CalendarEventCollection> FetchAsync(DateTime begin, DateTime end)
         {
             var result = new List<CalendarEvent>();
 
-            for(var year = since.Year;year <= DateTime.Now.Year; year++)
+            for(var year = begin.Year;year <= end.Year; year++)
             {
                 var content = File.ReadAllBytes(string.Format(GetJsonPath(year), year));
                 var events = JsonSerializer.Deserialize<CalendarEvent[]>(content)!;

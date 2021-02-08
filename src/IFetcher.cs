@@ -7,6 +7,6 @@ namespace ChinaPublicCalendarGenerator
 {
     interface IFetcher
     {
-        Task<CalendarEventCollection> FetchAsync(DateTime since);
+        Task<CalendarEventCollection> FetchAsync(DateTime begin, DateTime end);
     }
 }
