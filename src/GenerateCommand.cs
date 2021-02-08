@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ChinaPublicCalendarGenerator
@@ -18,8 +19,8 @@ namespace ChinaPublicCalendarGenerator
         [Required]
         public string Fetcher { get; set; } = string.Empty;
 
-        [Option(ShortName = "y", Description = "Generated from a certain year.")]
-        public int SinceYear { get; set; } = DateTime.Now.Year;
+        [Option(ShortName = "d", Description = "Generated from a certain date,format like yyyyMMdd.")]
+        public string SinceDateArg { get; set; } = DateTime.Today.ToString("yyyyMMdd");
 
         [Option(ShortName = "o", Description = "The output path of the generated content.")]
         [LegalFilePath]
@@ -33,6 +34,7 @@ namespace ChinaPublicCalendarGenerator
         public FetcherTypeCollection FetcherTypeCollection { get; }
         public IServiceProvider ServiceProvider { get; }
 
+
         public GenerateCommand(IGenerator generator, IConsole console, FetcherTypeCollection fetcherTypeCollection, IServiceProvider serviceProvider)
         {
             Generator = generator ?? throw new ArgumentNullException(nameof(generator));
@@ -43,15 +45,17 @@ namespace ChinaPublicCalendarGenerator
 
         public async Task<int> OnExecuteAsync(CommandLineApplication app)
         {
+            if (!DateTime.TryParse(SinceDateArg, out var sinceDate))
+                throw new ArgumentException("-d SinceDateArg format is incorrect.");
+
             var fetcher = (IFetcher)ServiceProvider.GetRequiredService(FetcherTypeCollection[Fetcher]);
-            var sinceDate = new DateTime(SinceYear, 1, 1);
 
             var events = await fetcher.FetchAsync(sinceDate);
             var buffer = await Generator.GeneratorAsync(events);
 
             if (OutputPath == null)
             {
-                Console.WriteLine(UTF8Encoding.UTF8.GetString(buffer));
+                Console.WriteLine(Encoding.UTF8.GetString(buffer));
             }
             else if (!File.Exists(OutputPath) || ForceOverwriteOutput || Prompt.GetYesNo("Output file exists, oo you want to overwrite?", false))
             {
