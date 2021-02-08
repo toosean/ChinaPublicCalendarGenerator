@@ -24,7 +24,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
             HttpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        protected override string? GetCalendarName() => "NBA赛程";
+        protected override string GetCalendarName() => "NBA赛程";
 
         protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
         {

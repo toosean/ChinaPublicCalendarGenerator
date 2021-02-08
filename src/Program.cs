@@ -13,7 +13,7 @@ namespace ChinaPublicCalendarGenerator
             if (args.FirstOrDefault() == "--input")
             {
                 Console.WriteLine("Input string as arguments:");
-                arguments = Console.ReadLine().Split(' ');
+                arguments = (Console.ReadLine() ?? string.Empty).Split(' ');
 
                 if (arguments.Length == 1 && string.IsNullOrWhiteSpace(arguments.FirstOrDefault())) arguments = new string[0];
             }

@@ -16,7 +16,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
         protected virtual string GetCachedPath()
             => this.GetType().Name + "Cached";
 
-        protected virtual string? GetCalendarName() => null;
+        protected abstract string? GetCalendarName();
 
         protected abstract Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since);
 
@@ -25,7 +25,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
             var cachedFilePath = GetCachedPath();
 
             var cached = File.Exists(cachedFilePath)
-                ? JsonSerializer.Deserialize<List<CalendarEvent>>(File.ReadAllText(cachedFilePath))
+                ? JsonSerializer.Deserialize<List<CalendarEvent>>(File.ReadAllText(cachedFilePath))!
                 : new List<CalendarEvent>();
 
             CacheMergeFrom(cached, await FetchOnCachedAsync(since));
@@ -39,7 +39,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
             , Func<CalendarEvent, CalendarEvent, bool>? comparer = null)
         {
 
-            var actComparer = comparer ?? DefaultEventCpmparer;
+            var actComparer = comparer ?? DefaultEventComparer;
 
             foreach (var _event in events)
             {
@@ -58,7 +58,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
             }
         }
 
-        private bool DefaultEventCpmparer(CalendarEvent a, CalendarEvent b) => a.Title == b.Title;
+        private bool DefaultEventComparer(CalendarEvent a, CalendarEvent b) => a.Title == b.Title;
 
     }
 }

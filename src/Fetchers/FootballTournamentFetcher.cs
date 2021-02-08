@@ -1,5 +1,6 @@
 ﻿using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
 using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

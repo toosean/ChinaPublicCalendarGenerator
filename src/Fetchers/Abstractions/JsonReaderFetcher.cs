@@ -19,7 +19,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
             for(var year = since.Year;year <= DateTime.Now.Year; year++)
             {
                 var content = File.ReadAllBytes(string.Format(GetJsonPath(year), year));
-                var events = JsonSerializer.Deserialize<CalendarEvent[]>(content);
+                var events = JsonSerializer.Deserialize<CalendarEvent[]>(content)!;
 
                 result.AddRange(events);
             }

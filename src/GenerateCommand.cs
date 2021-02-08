@@ -19,7 +19,7 @@ namespace ChinaPublicCalendarGenerator
         [Required]
         public string Fetcher { get; set; } = string.Empty;
 
-        [Option(ShortName = "d", Description = "Generated from a certain date,format like yyyyMMdd.")]
+        [Option(ShortName = "d", Description = "Generated from a certain date, format like yyyyMMdd.")]
         public string SinceDateArg { get; set; } = DateTime.Today.ToString("yyyyMMdd");
 
         [Option(ShortName = "o", Description = "The output path of the generated content.")]
@@ -45,9 +45,7 @@ namespace ChinaPublicCalendarGenerator
 
         public async Task<int> OnExecuteAsync(CommandLineApplication app)
         {
-            if (!DateTime.TryParse(SinceDateArg, out var sinceDate))
-                throw new ArgumentException("-d SinceDateArg format is incorrect.");
-
+            var sinceDate = DateTime.Parse($"{SinceDateArg.Substring(0, 4)}-{SinceDateArg.Substring(4, 2)}-{SinceDateArg.Substring(6, 2)}");
             var fetcher = (IFetcher)ServiceProvider.GetRequiredService(FetcherTypeCollection[Fetcher]);
 
             var events = await fetcher.FetchAsync(sinceDate);
@@ -57,7 +55,7 @@ namespace ChinaPublicCalendarGenerator
             {
                 Console.WriteLine(Encoding.UTF8.GetString(buffer));
             }
-            else if (!File.Exists(OutputPath) || ForceOverwriteOutput || Prompt.GetYesNo("Output file exists, oo you want to overwrite?", false))
+            else if (!File.Exists(OutputPath) || ForceOverwriteOutput || Prompt.GetYesNo("Output file exists, do you want to overwrite?", false))
             {
                 File.WriteAllBytes(OutputPath, buffer);
             }
