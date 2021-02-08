@@ -1,0 +1,79 @@
+[
+  {
+    "Title": "元旦 放假",
+    "Begin": "2021-01-01",
+    "End": "2021-01-03",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "春节调休 上班",
+    "Begin": "2021-01-07",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "春节 放假",
+    "Begin": "2021-02-11",
+    "End": "2021-02-17",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "春节调休 上班",
+    "Begin": "2021-02-20",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "清明节 放假",
+    "Begin": "2021-04-03",
+    "End": "2021-04-05",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "劳动节调休 上班",
+    "Begin": "2021-04-25",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "劳动节 放假",
+    "Begin": "2021-05-01",
+    "End": "2021-05-05",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "劳动节调休 上班",
+    "Begin": "2021-05-08",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "端午节 放假",
+    "Begin": "2021-06-12",
+    "End": "2021-06-14",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "中秋节调休 上班",
+    "Begin": "2021-09-18",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "中秋节 放假",
+    "Begin": "2021-09-19",
+    "End": "2021-09-21",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "国庆节调休 上班",
+    "Begin": "2021-09-26",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "国庆节 放假",
+    "Begin": "2021-10-01",
+    "End": "2021-10-07",
+    "IsWholeDay": true
+  },
+  {
+    "Title": "国庆节调休 上班",
+    "Begin": "2021-10-09",
+    "IsWholeDay": true
+  }
+]
