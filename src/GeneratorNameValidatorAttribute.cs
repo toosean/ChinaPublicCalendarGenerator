@@ -17,7 +17,7 @@ namespace ChinaPublicCalendarGenerator
 
             if (value is GenerateCommand command)
             {
-                if (fetcherTypeCollection.Keys.Contains(command.Fetcher))
+                if (!fetcherTypeCollection.Keys.Contains(command.Fetcher))
                 {
                     return new ValidationResult("Argument fetcherName invalid.");
                 }

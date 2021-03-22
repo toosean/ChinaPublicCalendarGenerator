@@ -9,3 +9,4 @@ dotnet ChinaPublicCalendarGenerator.dll game-launch -r -o:Generated/GameLaunch.i
 dotnet ChinaPublicCalendarGenerator.dll snooker-tournament -r -o:Generated/SnookerTournament.ics
 dotnet ChinaPublicCalendarGenerator.dll football-tournament -r -o:Generated/FootballTournament.ics
 dotnet ChinaPublicCalendarGenerator.dll nba-tournament -r -o:Generated/NBATournament.ics
+dotnet ChinaPublicCalendarGenerator.dll epic -r -o:Generated/EPIC.ics
