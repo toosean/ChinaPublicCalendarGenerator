@@ -27,6 +27,9 @@
     <None Update="Data\ChinaInternationalFestival_2020.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Data\ChinaSolarTerms_2021.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\ChinaSolarTerms_2020.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

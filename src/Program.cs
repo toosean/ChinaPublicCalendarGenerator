@@ -31,7 +31,7 @@ namespace ChinaPublicCalendarGenerator
                 .AddHttpClient()
                 .AddFetchers()
                 .AddScoped<IGenerator, IcalNETGenerator>()
-                .AddSingleton<IConsole>(PhysicalConsole.Singleton)
+                .AddSingleton(PhysicalConsole.Singleton)
                 .BuildServiceProvider();
 
     }
