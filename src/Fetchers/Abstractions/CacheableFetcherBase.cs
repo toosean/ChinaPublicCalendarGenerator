@@ -32,7 +32,11 @@ namespace ChinaPublicCalendarGenerator.Fetchers.Abstraction
 
             File.WriteAllText(GetCachedPath(), JsonSerializer.Serialize(cached));
 
-            return new CalendarEventCollection(cached.Where(w => w.Begin >= begin && w.End <= end)) { Name = GetCalendarName() };
+            return new CalendarEventCollection(cached.Where(w => 
+                w.Begin >= begin && 
+                (
+                    (w.End != null && w.End <= end) || (w.End == null && w.Begin <= end)
+                ))) { Name = GetCalendarName() };
         }
 
         protected virtual void CacheMergeFrom(IList<CalendarEvent> cachedEvents, IEnumerable<CalendarEvent> events
