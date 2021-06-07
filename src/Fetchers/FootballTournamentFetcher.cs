@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
+using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,15 +24,11 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string? GetCalendarName() => "足球赛程";
 
-        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin,DateTime end)
         {
             var result = new List<CalendarEvent>();
 
-            //暂时先抓取最近两个月的内容
-            DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            DateTime end = start.AddMonths(2).AddDays(-1);
-
-            DateTime current = start;
+            DateTime current = begin;
 
             while (end.Subtract(current).TotalDays >= 0)
             {

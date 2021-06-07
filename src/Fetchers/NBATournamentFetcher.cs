@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
 using HtmlAgilityPack;
 using Newtonsoft.Json.Linq;
 using System;
@@ -23,9 +24,9 @@ namespace ChinaPublicCalendarGenerator.Fetchers
             HttpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        protected override string? GetCalendarName() => "NBA赛程";
+        protected override string GetCalendarName() => "NBA赛程";
 
-        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin,DateTime end)
         {
             var result = new List<CalendarEvent>();
 

@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
+using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +24,13 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string? GetCalendarName() => "游戏发售时间表";
 
-        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin,DateTime end)
         {
             var result = new List<CalendarEvent>();
 
             for (var monthCounter = 0; monthCounter < 3; monthCounter++)
             {
-                var fetchDate = DateTime.Today.AddMonths(monthCounter);
+                var fetchDate = begin.AddMonths(monthCounter);
 
                 using (var client = HttpClientFactory.CreateClient())
                 using (var stream = await client.GetStreamAsync(string.Format(FetchInitUrl, fetchDate)))

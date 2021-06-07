@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
+using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +44,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string? GetCalendarName() => "斯诺克赛事日历";
 
-        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
+        protected override async Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin,DateTime end)
         {
             var result = new List<CalendarEvent>();
 

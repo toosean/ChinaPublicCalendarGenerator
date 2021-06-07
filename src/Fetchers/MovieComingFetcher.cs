@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
+using HtmlAgilityPack;
+using HtmlAgilityPack.CssSelectors.NetCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,8 +27,8 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
         protected override string? GetCalendarName() => "内地电影上映日期";
 
-        protected override async Task<IEnumerable<CalendarEvent>> FetchOnCachedAsync(DateTime since)
-        {
+        protected override async Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin,DateTime end)
+        { 
 
             var result = new List<CalendarEvent>();
 
@@ -45,6 +47,8 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                     var title = tdCollection[1].QuerySelector("a").InnerText;
                     var date = tdCollection[0].InnerText.Trim();
 
+                    var link = tdCollection[1].QuerySelector("a").Attributes["href"];
+
                     var match = regex.Match(date);
 
                     if (match.Success)
@@ -57,6 +61,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
                         {
                             Title = title,
                             Begin = actDate,
+                            Description = link.Value,
                             IsWholeDay = true
                         });
                     }

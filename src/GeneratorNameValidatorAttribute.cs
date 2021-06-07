@@ -1,4 +1,5 @@
 ﻿using ChinaPublicCalendarGenerator.Fetchers;
+using ChinaPublicCalendarGenerator.Fetchers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,20 +10,26 @@ namespace ChinaPublicCalendarGenerator
 {
     class GeneratorNameValidatorAttribute : ValidationAttribute
     {
-        public FetcherTypeCollection? FetcherTypeCollection { get; set; }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            FetcherTypeCollection = (FetcherTypeCollection)validationContext.GetService(typeof(FetcherTypeCollection));
+            var fetcherTypeCollection = (FetcherTypeCollection)validationContext.GetService(typeof(FetcherTypeCollection))!;
 
-            if (value is GenerateCommand command && !FetcherTypeCollection.Keys.Contains(command.Fetcher))
+            if (value is GenerateCommand command)
             {
-                return new ValidationResult("Argument fetcherName invalid.");
+                if (!fetcherTypeCollection.Keys.Contains(command.Fetcher))
+                {
+                    return new ValidationResult("Argument fetcherName invalid.");
+                }
+
+                if(!DateTime.TryParse($"{command.SinceDateArg.Substring(0, 4)}-{command.SinceDateArg.Substring(4, 2)}-{command.SinceDateArg.Substring(6, 2)}", out _))
+                {
+                    return new ValidationResult("Argument SinceDateArg format is incorrect.");
+                }
             }
 
             return ValidationResult.Success;
         
         }
-
     }
 }
