@@ -41,7 +41,7 @@ namespace ChinaPublicCalendarGenerator
 
                     //https://github.com/toosean/ChinaPublicCalendar/issues/9
                     //非常感谢 JarmoHu 指正
-                    calEnd.AddDays(1);
+                    calEnd = (CalDateTime)calEnd.AddDays(1);
                 }
 
                 using (var sha1 = SHA1.Create())
