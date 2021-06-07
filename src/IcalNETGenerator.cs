@@ -37,6 +37,10 @@ namespace ChinaPublicCalendarGenerator
 
                     calEnd.HasDate = true;
                     calEnd.HasTime = false;
+
+                    //https://github.com/toosean/ChinaPublicCalendar/issues/9
+                    //非常感谢 JarmoHu 指正
+                    calEnd.AddDays(1);
                 }
 
                 var revent = new Ical.Net.CalendarComponents.CalendarEvent()
