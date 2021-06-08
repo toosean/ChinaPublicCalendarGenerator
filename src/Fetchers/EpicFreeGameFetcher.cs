@@ -10,11 +10,9 @@ using System.Threading.Tasks;
 namespace ChinaPublicCalendarGenerator.Fetchers
 {
     [FetchShortName("epic")]
-    class EpicFreeGameFetcher : CacheableFetcherBase
+    class EpicFreeGameFetcher : IFetcher
     {
         private const string EPICDataUrl = "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions";
-
-        protected override string? GetCalendarName() => "EPIC 免费游戏";
 
         public IHttpClientFactory HttpClientFactory { get; }
 
@@ -23,7 +21,7 @@ namespace ChinaPublicCalendarGenerator.Fetchers
             HttpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        protected override async Task<IEnumerable<CalendarEvent>> FetchBaseCachedAsync(DateTime begin, DateTime end)
+        public async Task<CalendarEventCollection> FetchAsync(DateTime begin, DateTime end)
         {
             var result = new List<CalendarEvent>();
 
@@ -34,25 +32,22 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
                 var elements = root["data"]?["Catalog"]?["searchStore"]?["elements"] ?? throw new Exception();
 
-                //即将到来的免费游戏是第二个元素
-                var element = elements.Skip(1).First();
-                var offers = element["promotions"]?["upcomingPromotionalOffers"]?[0]?["promotionalOffers"]?[0];
-
-                var startDate = DateTime.Parse(offers?["startDate"]?.ToString() ?? throw new Exception());
-                var endDate = DateTime.Parse(offers?["endDate"]?.ToString() ?? throw new Exception());
-
-                result.Add(new CalendarEvent
+                result.AddRange(elements.Select(element => new
                 {
-                    Title = element["title"]?.ToString() ?? throw new Exception(),
-                    Begin = startDate.Date,
-                    End = endDate.Date,
-                    IsWholeDay = true
-                });
+                    element = element,
+                    offers = ((element["promotions"]?["promotionalOffers"]?.Any() ?? false) ?
+                                element["promotions"]?["promotionalOffers"] :
+                                element["promotions"]?["upcomingPromotionalOffers"])
+                             ?[0]?["promotionalOffers"]?[0]
+                }).Select(e => new CalendarEvent
+                {
+                    Title = e.element["title"]?.ToString() ?? throw new Exception(),
+                    Begin = DateTimeOffset.Parse(e.offers?["startDate"]?.ToString() ?? throw new Exception(), null, System.Globalization.DateTimeStyles.AssumeUniversal).LocalDateTime,
+                    End = DateTimeOffset.Parse(e.offers?["endDate"]?.ToString() ?? throw new Exception(), null, System.Globalization.DateTimeStyles.AssumeUniversal).LocalDateTime
+                }).OrderBy(o => o.Begin));
             }
 
-            return result;
+            return new CalendarEventCollection(result) { Name = "EPIC 免费游戏" };
         }
-
-
     }
 }
