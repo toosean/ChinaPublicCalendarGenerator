@@ -32,7 +32,10 @@ namespace ChinaPublicCalendarGenerator.Fetchers
 
                 var elements = root["data"]?["Catalog"]?["searchStore"]?["elements"] ?? throw new Exception();
 
-                result.AddRange(elements.Select(element => new
+                result.AddRange(elements
+
+                .Where(element => element["promotions"]?.Any() ?? false)
+                .Select(element => new
                 {
                     element = element,
                     offers = ((element["promotions"]?["promotionalOffers"]?.Any() ?? false) ?
